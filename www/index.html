@@ -10,9 +10,23 @@
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
 	-->
 	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script type="text/javascript" charset="utf-8" src="javascript/phonegap-1.0.0.js"></script>
-    <script type="text/javascript" charset="utf-8">
+        <meta charset="utf8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
+		<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+		<script src="/mustache.js"></script>
+		<script src="/underscore-min.js"></script>
+		<style type="text/css">
+			th {
+				text-align:left;
+			}
+			.ui-block-a.narrow {
+				width:30% !important;
+			}
+            </style>	
         
+            
 
 
 	// If you want to prevent dragging, uncomment this section
@@ -52,7 +66,25 @@
     </script>
   </head>
   <body onload="onBodyLoad()">
-  	  <h1>Hey, it's PhoneGap!</h1>
-	  <p>Don't know how to get started? Check out <em><a href="http://github.com/phonegap/phonegap-start">PhoneGap Start</a></em>  	
-  </body>
-</html>
+      <div data-role="page" data-url="/employees">
+          <div data-role=header>
+              <h1>Bekk ansattliste</h1>
+              <div data-role="navbar">
+                  <ul>
+                      <li><a class="my-nav ui-btn-active" href="">Alle</a></li>
+                      <li><a class="my-nav" href="">Technology</a></li>
+                      <li><a class="my-nav" href="">Interactive</a></li>
+                      <li><a class="my-nav" href="">Operations</a></li>
+                      <li><a class="my-nav" href="">Sales & Admin</a></li>
+                      <li><a class="my-nav" href="">Trondheim</a></li>
+                 </ul>
+              </div><!-- /navbar -->
+                </div>
+                          <div data-role="content">
+                          <ul id="employees" data-role="listview" data-filter=true data-filter-placeholder="Søk etter ansatt">
+                          </ul>
+                          </div>
+                          </div>
+                          <script src="javascript/app.js" charset="utf-8"></script>
+                          </body>
+                          </html>
