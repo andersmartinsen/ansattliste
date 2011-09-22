@@ -64,7 +64,7 @@ $(function(){
 		init: function(){
 			this.filter = this.allFilter;
 			$.ajax({
-				url: '/employees',
+				url: 'https://bekk-employees.herokuapp.com',
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				error: function(){
