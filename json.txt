@@ -1,0 +1,19 @@
+[{
+    "Department": "Technology",
+    "Email": "tore.lervik@bekk.no",
+    "EndDate": null,
+    "FirstName": "Tore",
+    "Gender": "Mann",
+    "Id": 461,
+    "ImageUrl": "https:\/\/intern.bekk.no\/Employees\/ViewEmployeeImage.ashx?thumbnail=true&employee=461&thumbsize=100",
+    "InterestGroup": ".Net",
+    "LastName": "Lervik",
+    "LogonID": "Tore Lervik",
+    "MobilePhone": "47010713",
+    "PostalAddress": "Oslo",
+    "PostalNr": "0366",
+    "Seniority": "Konsulent",
+    "StartDate": "20100803",
+    "Status": "I jobb",
+    "StreetAddress": "Valkyriegata 13a"
+}]
