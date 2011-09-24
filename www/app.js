@@ -7,6 +7,43 @@ $(function(){
 		belongsToDepartmentFilter: function(employee){
 			return employee['Department'] == App.department;
 		},
+        lagreAnsattTilKontaktLista: function(id) {
+        var employee = _.detect(this.employees, function(emp){
+           return emp['Id'] == id;
+        });
+  
+        var contact = navigator.contacts.create();
+        contact.displayName = employee.FirstName + ' ' + employee.LastName;
+        contact.nickname = employee.Seniority;
+  
+        var tlfNummere = [1];
+        tlfNummere[0] = new ContactField('Jobb', employee.MobilePhone, false);
+        contact.phoneNumbers = tlfNummere;
+  
+        var eposter = [1];
+        eposter[0] = new ContactField('Jobb', employee.Email, true);
+        contact.emails = eposter;
+  
+        var organisasjoner = [1];
+        organisasjoner[0] = new ContactOrganization(false, 'Jobb', 'Bekk', employee.Department, employee.Seniority);
+        contact.organizations = organisasjoner;
+  
+        var bilder = [1];
+        bilder[0] = new ContactField('Jobb', employee.ImageUrl , true); 
+        contact.photos = bilder;
+  
+        var name = new ContactName();
+        name.formatted = employee.FirstName + ' ' + employee.LastName;
+        name.givenName = employee.FirstName;
+        name.familyName = employee.LastName;
+        contact.name = name;
+  
+        var adresser = [1];
+        adresser[0] = new ContactAddress(true, 'Hjem', employee.StreetAddress + '' + employee.PostalAddress + '' + employee.PostalNr, employee.StreetAddress, 'Oslo', employee.PostalAddress, employee.PostalNr, 'Norge');
+        contact.addresses = adresser;
+  
+        contact.save(onSaveSuccess,onSaveError);
+        },
 		showEmployee: function(id){
 			var employee = _.detect(this.employees, function(emp){
 				return emp['Id'] == id;
@@ -14,6 +51,7 @@ $(function(){
 			var template = 	'<div data-role=page data-url=employee/{{Id}}>' + 
             '<div data-role=header>' +
             '<h1>{{FirstName}} {{LastName}}' +
+            '<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" data-icon="check" data-theme="b">Lagre</a>'
             '</div>' +
             '<div data-role=content>' +
             '<img src="{{ImageUrl}}"/>' +
@@ -50,6 +88,8 @@ $(function(){
 			var newPage = $(html);
 			newPage.appendTo($.mobile.pageContainer);
 			$.mobile.changePage(newPage);
+            $.mobile.changePage(newPage, { transition: "slideup"} );
+            $.mobile.showPageLoadingMsg();
 		},
 		render: function(data){
 			var template = 	'<li><a href="" onClick="App.showEmployee({{Id}}); return false;">' +
