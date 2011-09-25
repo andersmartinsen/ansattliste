@@ -55,11 +55,12 @@ $(function(){
 			var employee = _.detect(this.employees, function(emp){
 				return emp['Id'] == id;
 			});
-			var template = 	'<div data-role=page data-url=employee/{{Id}}>' + 
-            '<div data-role=header>' +
-            	'<h1>{{FirstName}} {{LastName}}</h1>' +
-            	'<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" data-role="button" data-icon="check" data-theme="b">Lagre</a>' +
-            '</div>' +
+			var template = 
+            '<div data-role="page" data-url="employee/{{Id}}" data-add-back-btn="true">' + 
+                '<div data-role="header" data-position="inline">' +
+                    '<h1>{{FirstName}} {{LastName}}</h1>' +
+                    '<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" class="ui-btn-right" data-role="button" data-icon="check">Save</a>' +
+                '</div>' +
             '<div data-role=content>' +
             	'<img src="{{ImageUrl}}"/>' +
             	'<br /><br />' +
