@@ -14,7 +14,6 @@ $(function(){
   
             var contact = navigator.contacts.create();
             contact.displayName = employee.FirstName + ' ' + employee.LastName;
-            contact.nickname = employee.Seniority;
   
             var tlfNummere = [1];
             tlfNummere[0] = new ContactField('Jobb', employee.MobilePhone, false);
@@ -39,10 +38,18 @@ $(function(){
             contact.name = name;
   
             var adresser = [1];
-            adresser[0] = new ContactAddress(true, 'Hjem', employee.StreetAddress + '' + employee.PostalAddress + '' + employee.PostalNr, employee.StreetAddress, 'Oslo', employee.PostalAddress, employee.PostalNr, 'Norge');
+            adresser[0] = new ContactAddress(true, 'Hjem', '', employee.StreetAddress, '', employee.PostalNr, employee.PostalAddress, 'Norge');
             contact.addresses = adresser;
   
-            contact.save(onSaveSuccess,onSaveError);
+            contact.save(onSuccess,onError);
+  
+            function onSuccess() {
+                navigator.notification.alert('Kontakten ble lagret i adresseboka', null, 'Suksess');
+            }
+
+            function onError(contactError) {
+                navigator.notification.alert('Feilkode: ' + contactError.code, null, 'En feil inntraff');
+            }
         },
 		showEmployee: function(id){
 			var employee = _.detect(this.employees, function(emp){
@@ -67,8 +74,12 @@ $(function(){
             		'</tr>' +
             		'<tr>' +
             			'<th scope="row">Avdeling:</th>' +
-		            	'<td>{{InterestGroup}}</td>' + 
+		            	'<td>{{Department}}</td>' + 
 		            '</tr>' +
+                    '<tr>' +
+                        '<th scope="row">Faggruppe:</th>' +
+                        '<td>{{InterestGroup}}</td>' + 
+                    '</tr>' +
 		            '<tr>' +
 		            	'<th scope="row">Epost:</th>' +
 		            	'<td>{{Email}}</td>' + 
