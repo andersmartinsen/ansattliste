@@ -82,11 +82,11 @@ $(function(){
                     '</tr>' +
 		            '<tr>' +
 		            	'<th scope="row">Epost:</th>' +
-		            	'<td>{{Email}}</td>' + 
+		            	'<td><a href="mailto:{{Email}}">{{Email}}</a></td>' + 
 		            '</tr>' +
 		            '<tr>' +
 		            	'<th scope="row">Telefon:</th>' +
-		            	'<td>{{MobilePhone}}</td>' + 
+		            	'<td><a href="tel:{{MobilePhone}}">{{MobilePhone}}</a></td>' + 
 		            '</tr>' +
 		            '<tr>' +
 		            	'<th scope="row">Adresse:</th>' +
