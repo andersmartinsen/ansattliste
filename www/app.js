@@ -63,7 +63,7 @@ $(function(){
             '<div data-role=content>' +
             	'<img src="{{ImageUrl}}"/>' +
             	'<br /><br />' +
-            	'<table>' +
+            	'<table class="ansatt">' +
             		'<tr>' +
             			'<th scope="row">Navn:</th>' +
             			'<td>{{FirstName}} {{LastName}}</td>' + 
