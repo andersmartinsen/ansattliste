@@ -50,46 +50,44 @@ $(function(){
 			});
 			var template = 	'<div data-role=page data-url=employee/{{Id}}>' + 
             '<div data-role=header>' +
-            '<h1>{{FirstName}} {{LastName}}' +
-            '<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" data-icon="check" data-theme="b">Lagre</a>'
+            	'<h1>{{FirstName}} {{LastName}}</h1>' +
+            	'<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" data-role="button" data-icon="check" data-theme="b">Lagre</a>'
             '</div>' +
             '<div data-role=content>' +
-            '<img src="{{ImageUrl}}"/>' +
-            '<br /><br />' +
-            '<table>' +
-            '<tr>' +
-            '<th scope="row">Navn:</th>' +
-            '<td>{{FirstName}} {{LastName}}</td>' + 
-            '</tr>' +
-            '<tr>' +
-            '<th scope="row">Stilling:</th>' +
-            '<td>{{Seniority}}</td>' + 
-            '</tr>' +
-            '<tr>' +
-            '<th scope="row">Avdeling:</th>' +
-            '<td>{{InterestGroup}}</td>' + 
-            '</tr>' +
-            '<tr>' +
-            '<th scope="row">Epost:</th>' +
-            '<td>{{Email}}</td>' + 
-            '</tr>' +
-            '<tr>' +
-            '<th scope="row">Telefon:</th>' +
-            '<td>{{MobilePhone}}</td>' + 
-            '</tr>' +
-            '<tr>' +
-            '<th scope="row">Adresse:</th>' +
-            '<td>{{StreetAddress}}, {{PostalNr}} {{PostalAddress}}</td>' + 
-            '</tr>' +
-            '</table>' +
+            	'<img src="{{ImageUrl}}"/>' +
+            	'<br /><br />' +
+            	'<table>' +
+            		'<tr>' +
+            			'<th scope="row">Navn:</th>' +
+            			'<td>{{FirstName}} {{LastName}}</td>' + 
+            		'</tr>' +
+            		'<tr>' +
+            			'<th scope="row">Stilling:</th>' +
+            			'<td>{{Seniority}}</td>' + 
+            		'</tr>' +
+            		'<tr>' +
+            			'<th scope="row">Avdeling:</th>' +
+		            	'<td>{{InterestGroup}}</td>' + 
+		            '</tr>' +
+		            '<tr>' +
+		            	'<th scope="row">Epost:</th>' +
+		            	'<td>{{Email}}</td>' + 
+		            '</tr>' +
+		            '<tr>' +
+		            	'<th scope="row">Telefon:</th>' +
+		            	'<td>{{MobilePhone}}</td>' + 
+		            '</tr>' +
+		            '<tr>' +
+		            	'<th scope="row">Adresse:</th>' +
+		            	'<td>{{StreetAddress}}, {{PostalNr}} {{PostalAddress}}</td>' + 
+		            '</tr>' +
+		          '</table>' +
             '</div>' + 
             '</div>';
 			var html = Mustache.to_html(template, employee);
 			var newPage = $(html);
 			newPage.appendTo($.mobile.pageContainer);
 			$.mobile.changePage(newPage);
-            $.mobile.changePage(newPage, { transition: "slideup"} );
-            $.mobile.showPageLoadingMsg();
 		},
 		render: function(data){
 			var template = 	'<li><a href="" onClick="App.showEmployee({{Id}}); return false;">' +
@@ -103,18 +101,32 @@ $(function(){
 		},
 		init: function(){
 			this.filter = this.allFilter;
-			$.ajax({
-				url: 'https://bekk-employees.herokuapp.com',
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				error: function(){
-					alert("error");
-				},
-				success: function(data){
-					App.employees = data;
-					App.render(data);
+			var useLocal = true;
+			var username = localStorage.getItem('username');
+			var password = localStorage.getItem('password');
+			var employeesData = localStorage.getItem('employeesData');
+			if (employeesData != null && useLocal){
+				App.employees = JSON.parse(employeesData);
+				App.render(App.employees);
+			} else {
+				if (username != null && password != null) {
+					$.ajax({
+						url: 'https://bekk-employees.herokuapp.com/employees',
+						data: {username: username, password: password},
+						dataType: "jsonp",
+						error: function(){
+							$.mobile.changePage($("#loginPage"));
+						},
+						success: function(data){
+							localStorage.setItem('employeesData', JSON.stringify(data));
+							App.employees = data;
+							App.render(data);
+						}
+					});
+				} else {
+					$.mobile.changePage($("#loginPage"));
 				}
-			});
+			}	
 		}
 	}
 	$('.my-nav').click(function(){
@@ -132,6 +144,14 @@ $(function(){
 			App.filter = App.belongsToDepartmentFilter;
 		}
 		App.render(App.employees);
+		return false;
+	});
+	$("#loginForm").submit(function(e){
+		e.preventDefault();
+		localStorage.setItem("username",$("#username").val());
+		localStorage.setItem("password",$("#password").val());
+		$.mobile.changePage($("#employeeListPage"));
+		App.init();
 		return false;
 	});
 	App.init();

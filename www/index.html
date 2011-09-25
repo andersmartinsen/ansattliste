@@ -10,7 +10,7 @@
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
 	-->
 	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script type="text/javascript" charset="utf-8" src="/phonegap-1.0.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js"></script>
 		<link rel="stylesheet" href="jquery.mobile-1.0b3.min.css" />
 		<script src="jquery-1.6.2.min.js"></script>
 		<script src="jquery.mobile-1.0b3.min.js"></script>
@@ -59,14 +59,13 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-		// do your thing!
-		navigator.notification.alert("PhoneGap is working")
+		
 	}
     
     </script>
   </head>
   <body onload="onBodyLoad()">
-      <div data-role="page" data-url="/employees">
+      <div id="employeeListPage" data-role="page" data-url="/employees">
           <div data-role=header>
               <h1>Bekk ansattliste</h1>
               <div data-role="navbar">
@@ -79,12 +78,26 @@
                       <li><a class="my-nav" href="">Trondheim</a></li>
                  </ul>
               </div><!-- /navbar -->
-                </div>
-                          <div data-role="content">
-                          <ul id="employees" data-role="listview" data-filter=true data-filter-placeholder="Søk etter ansatt">
-                          </ul>
-                          </div>
-                          </div>
-                          <script src=/"app.js" charset="utf-8"></script>
-                          </body>
-    </html>
+          </div>
+          <div data-role="content">
+              <ul id="employees" data-role="listview" data-filter=true data-filter-placeholder="Søk etter ansatt">
+              </ul>
+          </div>
+    </div>
+    <div id="loginPage" data-role="page" data-url="/login">
+        <div data-role="header">
+          <h1>Logg inn</h1>
+        </div>
+        <div data-role="content">
+          <form id="loginForm" data-ajax="false">
+              <label for="username">Brukernavn</label>
+              <input id="username" type="text" />
+              <label for="password">Passord</label>
+              <input id="password" type="password" />
+							<input type="submit" value="Logg inn"/>
+          </form>
+        </div>
+    </div>          
+    <script src="app.js" charset="utf-8"></script>
+  </body>
+</html>
