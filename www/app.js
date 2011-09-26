@@ -132,6 +132,7 @@ $(function(){
 						success: function(data){
 							_.each(data, function(employee){
 								$.ajax({url: employee.ImageUrl, async:false, error:function(jqXHR, textStatus, errorThrown){alert(textStatus);}, success: function(data){
+										console.log(data);
 										employee.ImageUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==";
 									}
 								});
