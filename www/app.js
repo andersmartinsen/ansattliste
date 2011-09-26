@@ -1,5 +1,5 @@
 $(function(){
-	window.App = {
+	window.App = { 
 		employees: null,
 		filter: null,
 		department: "Alle",
