@@ -9,61 +9,15 @@ $(function() {
         belongsToDepartmentFilter: function(employee) {
             return employee['Department'] == App.department;
         },
-        lagreAnsattTilKontaktLista: function(id) {
-            var employee = _.detect(this.employees,
-            function(emp) {
-                return emp['Id'] == id;
-            });
-
-            var contact = navigator.contacts.create();
-            contact.displayName = employee.FirstName + ' ' + employee.LastName;
-
-            var tlfNummere = [1];
-            tlfNummere[0] = new ContactField('Jobb', employee.MobilePhone, false);
-            contact.phoneNumbers = tlfNummere;
-
-            var eposter = [1];
-            eposter[0] = new ContactField('Jobb', employee.Email, true);
-            contact.emails = eposter;
-
-            var organisasjoner = [1];
-            organisasjoner[0] = new ContactOrganization(false, 'Jobb', 'Bekk', employee.Department, employee.Seniority);
-            contact.organizations = organisasjoner;
-
-            var bilder = [1];
-            bilder[0] = new ContactField('Jobb', employee.ImageUrl, true);
-            contact.photos = bilder;
-
-            var name = new ContactName();
-            name.formatted = employee.FirstName + ' ' + employee.LastName;
-            name.givenName = employee.FirstName;
-            name.familyName = employee.LastName;
-            contact.name = name;
-
-            var adresser = [1];
-            adresser[0] = new ContactAddress(true, 'Hjem', '', employee.StreetAddress, '', employee.PostalNr, employee.PostalAddress, 'Norge');
-            contact.addresses = adresser;
-
-            contact.save(onSuccess, onError);
-
-            function onSuccess() {
-                navigator.notification.alert('Kontakten ble lagret i adresseboka', null, 'Suksess');
-            }
-
-            function onError(contactError) {
-                navigator.notification.alert('Feilkode: ' + contactError.code, null, 'En feil inntraff');
-            }
-        },
         showEmployee: function(id) {
             var employee = _.detect(this.employees,
             function(emp) {
                 return emp['Id'] == id;
             });
             var template =
-            '<div data-role="page" data-url="employee/{{Id}}" data-add-back-btn="true">' +
+            '<div data-role="page" data-url="employee/{{Id}}">' +
             '<div data-role="header" data-position="inline">' +
             '<h1>{{FirstName}} {{LastName}}</h1>' +
-            '<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" class="ui-btn-right" data-role="button" data-icon="check">Save</a>' +
             '</div>' +
             '<div data-role=content>' +
             '<img src="{{ImageUrl}}"/>' +
