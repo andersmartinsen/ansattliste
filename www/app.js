@@ -1,6 +1,6 @@
 $(function() {
     window.App = {
-        employees: null,
+        employees: [],
         filter: null,
         department: "Alle",
         allFilter: function(employee) {
@@ -117,9 +117,18 @@ $(function() {
             "");
             $('#employees').html(html).listview('refresh');
         },
+		add: function(employee){
+			App.employees.push(employee);
+			var template = '<li><a href="" onClick="App.showEmployee({{Id}}); return false;">' +
+            '<img src="{{ImageUrl}}"/>' +
+            '<h3>{{FirstName}} {{LastName}}</h3>' +
+            '<p>{{Email}}</p></a></li>';
+			var html = Mustache.to_html(template, employee);
+			$('#employees').append(html).listview('refresh');
+		},
         init: function() {
             this.filter = this.allFilter;
-            var useLocal = true;
+            var useLocal = false;
             var username = localStorage.getItem('username');
             var password = localStorage.getItem('password');
             var employeesData = localStorage.getItem('employeesData');
@@ -139,11 +148,23 @@ $(function() {
                             $.mobile.changePage($("#loginPage"));
                         },
                         success: function(data) {
+							_.each(data, function(e){
+								$.ajax({
+									url: 'https://bekk-employees.herokuapp.com/image',
+									data: {
+										employee: e.Id,
+										username: username, 
+										password: password
+									},
+									dataType: "jsonp",
+									success: function(data){
+										e.ImageUrl = data.img64;
+										App.add(e);
+									}
+								});
+							});
                             localStorage.setItem('employeesData', JSON.stringify(data));
-                            App.employees = data;
-                            App.render(data);
-   
-                           }
+                        }
                     });
                 } else {
                     $.mobile.changePage($("#loginPage"));
