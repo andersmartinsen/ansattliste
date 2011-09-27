@@ -102,9 +102,9 @@ $(function() {
 				'<div data-role="footer" data-position="fixed">' +
 		              '<div data-role="navbar">' + 
 		                  '<ul>' +
-		                      '<li><a href="#employeeListPage" class="ui-btn-active">Alle</a></li>' +
+		                      '<li><a href="" class="nav-footer-alle"">Alle</a></li>' +
 		                      '<li><a href="#avdeling">Avdeling</a></li>' + 
-		                      '<li><a href="">Faggruppe</a></li>' + 
+		                      '<li><a href="#faggruppe">Faggruppe</a></li>' + 
 		                      '<li><a href="">Favoritter</a></li>' + 
 		                  '</ul>' + 
 		              '</div>' + 
@@ -197,7 +197,7 @@ $(function() {
         $.mobile.changePage($("#employeeListPage"));
     });
 
-	$('.ui-block-a').click(function() {
+	$('.nav-footer-alle').click(function() {
 		App.filter = App.allFilter;
 	    App.render(App.employees);
 	    $.mobile.changePage($("#employeeListPage"));
