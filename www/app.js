@@ -102,8 +102,8 @@ $(function() {
 				'<div data-role="footer" data-position="fixed">' +
 		              '<div data-role="navbar">' + 
 		                  '<ul>' +
-		                      '<li><a href="" class="ui-btn-active">Alle</a></li>' +
-		                      '<li><a href="">Avdeling</a></li>' + 
+		                      '<li><a href="#employeeListPage" class="ui-btn-active">Alle</a></li>' +
+		                      '<li><a href="#avdeling">Avdeling</a></li>' + 
 		                      '<li><a href="">Faggruppe</a></li>' + 
 		                      '<li><a href="">Favoritter</a></li>' + 
 		                  '</ul>' + 
@@ -184,22 +184,25 @@ $(function() {
         }
     }
     $('.my-nav').click(function() {
-        $('.ui-btn-active').removeClass('ui-btn-active');
-        $(this).addClass('ui-btn-active');
         var $target = $(this).children();
         while ($target.length) {
             $target = $target.children();
         }
-        var department = $target.end().text();
-        if (department == "Alle") {
-            App.filter = App.allFilter;
-        } else {
-            App.department = department;
-            App.filter = App.belongsToDepartmentFilter;
-        }
+
+		var department = $target.end().text();
+        App.department = department;
+        App.filter = App.belongsToDepartmentFilter;
+      
         App.render(App.employees);
-        return false;
+        $.mobile.changePage($("#employeeListPage"));
     });
+
+	$('.ui-block-a').click(function() {
+		App.filter = App.allFilter;
+	    App.render(App.employees);
+	    $.mobile.changePage($("#employeeListPage"));
+	 });
+	
     $("#loginForm").submit(function(e) {
         e.preventDefault();
         localStorage.setItem("username", $("#username").val());
