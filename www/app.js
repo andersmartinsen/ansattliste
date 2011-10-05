@@ -6,6 +6,9 @@ $(function() {
         allFilter: function(employee) {
             return true;
         },
+        tilhorerFaggruppe: function(employee) {
+            return employee['InterestGroup'] == App.department;
+        },
         belongsToDepartmentFilter: function(employee) {
             return employee['Department'] == App.department;
         },
@@ -61,54 +64,54 @@ $(function() {
             });
             var template =
             '<div data-role="page" data-url="employee/{{Id}}" data-add-back-btn="true">' +
-            	'<div data-role="header" data-position="inline">' +
-            		'<h1>{{FirstName}} {{LastName}}</h1>' +
-            		'<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" class="ui-btn-right" data-role="button" data-icon="check">Save</a>' +
-            	'</div>' +
-            	'<div data-role=content>' +
-            		'<img src="{{ImageUrl}}"/>' +
-            		'<br /><br />' +
-            		'<table class="ansatt">' +
-            			'<tr>' +
-            				'<th scope="row">Navn:</th>' +
-            				'<td>{{FirstName}} {{LastName}}</td>' +
-            			'</tr>' +
-            			'<tr>' +
-            				'<th scope="row">Stilling:</th>' +
-            				'<td>{{Seniority}}</td>' +
-            			'</tr>' +
-            			'<tr>' +
-            				'<th scope="row">Avdeling:</th>' +
-            				'<td>{{Department}}</td>' +
-            			'</tr>' +
-            			'<tr>' +
-            				'<th scope="row">Faggruppe:</th>' +
-            				'<td>{{InterestGroup}}</td>' +
-            			'</tr>' +
-            			'<tr>' +
-				            '<th scope="row">Epost:</th>' +
-				            '<td><a href="mailto:{{Email}}">{{Email}}</a></td>' +
-            			'</tr>' +
-            			'<tr>' +
-            				'<th scope="row">Telefon:</th>' +
-            				'<td><a href="tel:{{MobilePhone}}">{{MobilePhone}}</a></td>' +
-            			'</tr>' +
-            			'<tr>' +
-            				'<th scope="row">Adresse:</th>' +
-            				'<td>{{StreetAddress}}, {{PostalNr}} {{PostalAddress}}</td>' +
-            				'</tr>' +
-            		'</table>' +
-            	'</div>' +
-				'<div data-role="footer" data-position="fixed">' +
-		              '<div data-role="navbar">' + 
-		                  '<ul>' +
-		                      '<li><a href="" class="nav-footer-alle"">Alle</a></li>' +
-		                      '<li><a href="#avdeling">Avdeling</a></li>' + 
-		                      '<li><a href="#faggruppe">Faggruppe</a></li>' + 
-		                      '<li><a href="">Favoritter</a></li>' + 
-		                  '</ul>' + 
-		              '</div>' + 
-		          '</div>' +
+            '<div data-role="header" data-position="inline">' +
+            '<h1>{{FirstName}} {{LastName}}</h1>' +
+            '<a href="" onClick="App.lagreAnsattTilKontaktLista({{Id}}); return false;" class="ui-btn-right" data-role="button" data-icon="check">Save</a>' +
+            '</div>' +
+            '<div data-role=content>' +
+            '<img src="{{ImageUrl}}"/>' +
+            '<br /><br />' +
+            '<table class="ansatt">' +
+            '<tr>' +
+            '<th scope="row">Navn:</th>' +
+            '<td>{{FirstName}} {{LastName}}</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Stilling:</th>' +
+            '<td>{{Seniority}}</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Avdeling:</th>' +
+            '<td>{{Department}}</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Faggruppe:</th>' +
+            '<td>{{InterestGroup}}</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Epost:</th>' +
+            '<td><a href="mailto:{{Email}}">{{Email}}</a></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Telefon:</th>' +
+            '<td><a href="tel:{{MobilePhone}}">{{MobilePhone}}</a></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<th scope="row">Adresse:</th>' +
+            '<td>{{StreetAddress}}, {{PostalNr}} {{PostalAddress}}</td>' +
+            '</tr>' +
+            '</table>' +
+            '</div>' +
+            '<div data-role="footer" data-position="fixed">' +
+            '<div data-role="navbar">' +
+            '<ul>' +
+            '<li><a href="#employeeListPage">Alle</a></li>' +
+            '<li><a href="#avdeling">Avdeling</a></li>' +
+            '<li><a href="#faggruppe">Faggruppe</a></li>' +
+            '<li><a href="#favoritter">Favoritter</a></li>' +
+            '</ul>' +
+            '</div>' +
+            '</div>' +
             '</div>';
             var html = Mustache.to_html(template, employee);
             var newPage = $(html);
@@ -183,26 +186,57 @@ $(function() {
             }
         }
     }
+  
     $('.my-nav').click(function() {
         var $target = $(this).children();
         while ($target.length) {
             $target = $target.children();
         }
 
-		var department = $target.end().text();
+        var department = $target.end().text();
         App.department = department;
         App.filter = App.belongsToDepartmentFilter;
-      
+
+        App.render(App.employees);
+        $.mobile.changePage($("#employeeListPage"));
+    });
+  
+  $('.my-nav-faggruppe').click(function() {
+        var $target = $(this).children();
+        while ($target.length) {
+            $target = $target.children();
+        }
+                     
+        var department = $target.end().text();
+        App.department = department;
+        App.filter = App.tilhorerFaggruppe;
+                     
         App.render(App.employees);
         $.mobile.changePage($("#employeeListPage"));
     });
 
-	$('.nav-footer-alle').click(function() {
-		App.filter = App.allFilter;
-	    App.render(App.employees);
-	    $.mobile.changePage($("#employeeListPage"));
-	 });
-	
+  
+    $('.nav-footer').click(function() {
+        var $target = $(this).children();
+        
+        while ($target.length) {
+            $target = $target.children();
+        }
+        
+		var footer_menu_item = $target.end().text();
+		if (footer_menu_item == 'Alle') {
+            App.filter = App.allFilter;
+            App.render(App.employees);
+            $.mobile.changePage($("#employeeListPage"));
+        } else if (footer_menu_item == 'Avdeling') {
+			$.mobile.changePage($("#avdeling"));
+		} else if (footer_menu_item == 'Faggruppe' ) {
+			$.mobile.changePage($("#faggruppe"));
+        } else if (footer_menu_item == 'Favoritter') {
+            $.mobile.changePage($("#faggruppe"));
+        }                   
+    });
+
     $("#loginForm").submit(function(e) {
         e.preventDefault();
         localStorage.setItem("username", $("#username").val());
