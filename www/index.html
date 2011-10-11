@@ -4,11 +4,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
             <meta http-equiv="Content-type" content="text/html; charset=utf-8">
                 <meta name="apple-mobile-web-app-capable" content="yes">
-                    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.css" />
-                    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-                    <script src="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
-                    <script src="mustache.js" type="text/javascript">
-                        </script>
+                    <link rel="stylesheet" href="jquery.mobile-1.0rc1.min.css" />
+                    <script src="phonegap-1.0.0.js" />
+                    <script src="jquery-1.6.4.min.js"></script>
+                    <script src="jquery.mobile-1.0rc1.min.js"></script>
+                    <script src="mustache.js" type="text/javascript"></script>
                     <script src="underscore-min.js" type="text/javascript">
                         </script>
                     </head>
@@ -38,39 +38,65 @@
 			<script>
 				$(function(){
                   window.App = {
-                  contactTemplate: "<li><a href='#'><h1>{{name}}</h1><p>{{number}}</p></a></li>",
-                  data: function(){
-                  var store = localStorage.getItem('contacts');
-                  return (store && JSON.parse(store)) || {};
+                  	contactTemplate: "<li><a href='#'><h1>{{name}}</h1><p>{{number}}</p></a></li>",
+                  	data: function(){
+                  		var store = localStorage.getItem('contacts');
+                  		return (store && JSON.parse(store)) || {};
                   },
-                  addContact: function(name, number){
-                  var data = this.data();
-                  data[number] = {name: name, number: number};
-                  localStorage.setItem('contacts', JSON.stringify(data));
-                  this.render();
+				lagreKontaktLista: function(navn, nummer) {
+
+                  var contact = navigator.contacts.create();
+                  contact.displayName = navn;
+                  contact.nickname = navn;
+					
+                  var tlfNummere = [1];
+  				  tlfNummere[0] = new ContactField('mobile', nummer, true);
+				  contact.phoneNumbers = tlfNummere;
+					
+				  var name = new ContactName();
+				  name.formatted = navn;
+                  name.givenName = navn;
+				  contact.name = name;
+                  
+				  contact.save(onSuccess, onError);
+
+				  function onSuccess() {
+			   	      navigator.notification.alert('Kontakten ble lagret i adresseboka', null, 'Suksess');
+		          }
+
+				  function onError(contactError) {
+						navigator.notification.alert('Feilkode: ' + contactError.code, null, 'En feil inntraff');
+				  }	
+				},
+                addContact: function(name, number){
+                  	var data = this.data();
+                  	data[number] = {name: name, number: number};
+                  	localStorage.setItem('contacts', JSON.stringify(data));
+                  	this.render();
                   },
                   allContacts: function(){
-                  return _.values(this.data());
+                  	return _.values(this.data());
                   },
                   render: function(){
-                  if (false){
-                  localStorage.setItem("contacts", JSON.stringify({}));
-                  }
-                  var html = _.reduce(this.allContacts(), function(memo, contact){
+                  	if (false){
+                  		localStorage.setItem("contacts", JSON.stringify({}));
+                  	}
+                  	var html = _.reduce(this.allContacts(), function(memo, contact){
                                       return memo + Mustache.to_html(App.contactTemplate, contact);
                                       }, "");
-                  $("#contact-list").html(html).listview("refresh");
+                  	$("#contact-list").html(html).listview("refresh");
                   }
-                  };
-                  $("#new-contact-form").live("submit", function(e){
-                                              App.addContact($("#name").val(), $("#number").val());
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              return false;
-                                              });
+                };
+                $("#new-contact-form").live("submit", function(e) {
+	            	App.addContact($("#name").val(), $("#number").val());
+					App.lagreKontaktLista($("#name").val(), $("#number").val());
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                  });
                   App.render();
                   });
                 </script>
 		</div>
 	</body>
-</html>
+</html> 
