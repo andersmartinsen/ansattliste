@@ -18,40 +18,57 @@
 				<h1>Kontaktliste<h1>
 			</div>
 			<div data-role="content">
-				<form action="" id="new-contact-form">
-					<label for="name">Navn:</label>
-					<input type="text" id="name" />
-					<label for="number">Tlf.nr</label>
-					<input type="number" id="number" />
-					<input type="submit" value="Lagre" />
+				<form action="#" id="new-contact-form" data-ajax="false">
+					<div data-role="fieldcontain">
+						<label for="name">Navn:</label>
+						<input type="text" id="name" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="number">Tlf.nr</label>
+						<input type="number" id="number" />
+					</div>
+					<div data-role="fieldcontain">
+						<input type="submit" value="Lagre" />
+					</div>
 				</form>
+				<div style="clear:both; height:10px;"></div>
 				<ul id="contact-list" data-role="listview">
 				</ul>
 			</div>
 			<script>
 				$(function(){
 					window.App = {
-						init: function(){
-							console.log("init");
-							localStorage.setItem( 'contacts', JSON.stringify({list: []}) );
+						contactTemplate: "<li><a href='#'><h1>{{name}}</h1><p>{{number}}</p></a></li>",
+						data: function(){
+							var store = localStorage.getItem('contacts');
+							return (store && JSON.parse(store)) || {};
 						},
-						contactsTemplate: "{{#contacts}}<li><a href='#'><h1>{{name}}</h1><p>{{number}}</p></a></li>{{/contacts}}",
 						addContact: function(name, number){
-							var contacts = JSON.parse(localStorage.getItem('contacts'));
-							contacts.list.append({name: name, number: number});
-							localStorage.setItem('contacts', JSON.stringify(contacts));
-							console.log(Mustache.to_html(this.contactsTemplate, {contacts: contacts}));
-							$("#contact-list").html(Mustache.to_html(this.contactsTemplate, {contacts: contacts})).listview("refresh");
+							var data = this.data();
+							data[number] = {name: name, number: number};
+							localStorage.setItem('contacts', JSON.stringify(data));
+							this.render();
+						},
+						allContacts: function(){
+							return _.values(this.data());
+						},
+						render: function(){
+							if (false){
+								localStorage.setItem("contacts", JSON.stringify({}));
+							}
+							var html = _.reduce(this.allContacts(), function(memo, contact){
+								return memo + Mustache.to_html(App.contactTemplate, contact);
+							}, "");
+							$("#contact-list").html(html).listview("refresh");
 						}
 					};
 					$("#new-contact-form").live("submit", function(e){
-						console.log("in submit handler");
 						App.addContact($("#name").val(), $("#number").val());
-						console.log("after add contact");
 						e.preventDefault();
+						e.stopPropagation();
 						return false;
 					});
-					App.init();
+					App.render();
 				});
 			</script>
 		</div>
