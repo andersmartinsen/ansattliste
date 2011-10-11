@@ -1,241 +1,76 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;">
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js">
-</script>
-		<link rel="stylesheet" href="jquery.mobile-1.0b3.min.css" type="text/css">
-		<script src="jquery-1.6.2.min.js" type="text/javascript">
-</script>
-		<script src="jquery.mobile-1.0b3.min.js" type="text/javascript">
-</script>
-		<script src="mustache.js" type="text/javascript">
-</script>
-		<script src="underscore-min.js" type="text/javascript">
-</script>
-		<style type="text/css">
-   table.ansatt {
-				font-size: 14px;
-			}
-			th {
-				text-align:left;
-			}   
-			.ui-block-a.narrow {
-				width:30% !important;
-			}
-		</style>
-		<title></title>
-	</head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+            <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+                <meta name="apple-mobile-web-app-capable" content="yes">
+                    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.css" />
+                    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+                    <script src="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
+                    <script src="mustache.js" type="text/javascript">
+                        </script>
+                    <script src="underscore-min.js" type="text/javascript">
+                        </script>
+                    </head>
 	<body>
-		<div id="employeeListPage" data-role="page" data-url="/employees">
+		<div data-role="page">
 			<div data-role="header">
-				<h1>
-					Bekk ansattliste
-				</h1>
-			</div>
+				<h1>Kontaktliste<h1>
+                    </div>
 			<div data-role="content">
-				<ul id="employees" data-role="listview" data-filter="true" data-filter-placeholder="Søk etter ansatt"></ul>
-			</div>
-			<div data-role="footer" data-position="fixed">
-				<div data-role="navbar">
-					<ul>
-						<li>
-							<a href="" class="nav-footer ui-btn-active">Alle</a>
-						</li>
-						<li>
-							<a href="#avdeling" class="nav-footer">Avdeling</a>
-						</li>
-						<li>
-							<a href="#faggruppe" class="nav-footer">Faggruppe</a>
-						</li>
-						<li>
-							<a href="" class="nav-footer">Favoritter</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div id="avdeling" data-role="page">
-			<div data-role="header">
-				<h1>
-					Velg avdeling
-				</h1>
-			</div>
-			<div data-role="content">
-				<div class="content-primary">
-					<ul data-role="listview">
-						<li>
-							<a class="my-nav" href="">Technology</a>
-						</li>
-						<li>
-							<a class="my-nav" href="">Interactive</a>
-						</li>
-						<li>
-							<a class="my-nav" href="">Operations</a>
-						</li>
-						<li>
-							<a class="my-nav" href="">Sales &amp; Admin</a>
-						</li>
-						<li>
-							<a class="my-nav" href="">Trondheim</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div data-role="footer" data-position="fixed">
-				<div data-role="navbar">
-					<ul>
-						<li>
-							<a class="nav-footer" href="">Alle</a>
-						</li>
-						<li>
-							<a class="nav-footer ui-btn-active" href="">Avdeling</a>
-						</li>
-						<li>
-							<a class="nav-footer" href="">Faggruppe</a>
-						</li>
-						<li>
-							<a class="nav-footer" href="">Favoritter</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div id="faggruppe" data-role="page">
-			<div data-role="header">
-				<h1>
-					Velg faggruppe
-				</h1>
-			</div>
-			<div data-role="content">
-				<div class="content-primary">
-					<ul data-role="listview">
-						<li>
-							<a class="my-nav-faggruppe" href="">Sikkerhet</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Java</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Webarkitektur</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">.Net</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Strategi</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Prosjekt- og programledelse</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Funksjonalitet og brukeropplevelse</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Design</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Frontend</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Systemarkitektur</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">IT-rådgivning</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Teknisk prosjektledelse</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Mobile og rike klienter</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Fri programvare</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Kvalitet og testing</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Dynamiske språk</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Tech Oppstart</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Testledelse</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Virksomhet 2.0</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Cloud Computing</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Sharepoint og CMS</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Konseptutvikling</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Offshore</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Scala og JVM</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">TRH Devops</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">TRH Ruby</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">TRH JVM og Scala</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">TRH Mobil først</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">Funk Oppstart</a>
-						</li>
-						<li>
-							<a class="my-nav-faggruppe" href="">TRH Oppstart</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div data-role="footer" data-position="fixed">
-				<div data-role="navbar">
-					<ul>
-						<li>
-							<a class="nav-footer" href="">Alle</a>
-						</li>
-						<li>
-							<a class="nav-footer" href="#avdeling">Avdeling</a>
-						</li>
-						<li>
-							<a class="nav-footer ui-btn-active" href="#faggruppe">Faggruppe</a>
-						</li>
-						<li>
-							<a class="nav-footer" href="">Favoritter</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div id="loginPage" data-role="page" data-url="/login">
-			<div data-role="header">
-				<h1>
-					Logg inn
-				</h1>
-			</div>
-			<div data-role="content">
-				<form id="loginForm" data-ajax="false" name="loginForm">
-					<label for="username">Brukernavn</label> <input id="username" type="text"> <label for="password">Passord</label> <input id="password" type="password"> <input type="submit" value="Logg inn">
+				<form action="#" id="new-contact-form" data-ajax="false">
+					<div data-role="fieldcontain">
+						<label for="name">Navn:</label>
+						<input type="text" id="name" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="number">Tlf.nr</label>
+						<input type="number" id="number" />
+					</div>
+					<div data-role="fieldcontain">
+						<input type="submit" value="Lagre" />
+					</div>
 				</form>
+				<div style="clear:both; height:10px;"></div>
+				<ul id="contact-list" data-role="listview">
+				</ul>
 			</div>
-		</div><script src="app.js" charset="utf-8" type="text/javascript">
-</script>
+			<script>
+				$(function(){
+                  window.App = {
+                  contactTemplate: "<li><a href='#'><h1>{{name}}</h1><p>{{number}}</p></a></li>",
+                  data: function(){
+                  var store = localStorage.getItem('contacts');
+                  return (store && JSON.parse(store)) || {};
+                  },
+                  addContact: function(name, number){
+                  var data = this.data();
+                  data[number] = {name: name, number: number};
+                  localStorage.setItem('contacts', JSON.stringify(data));
+                  this.render();
+                  },
+                  allContacts: function(){
+                  return _.values(this.data());
+                  },
+                  render: function(){
+                  if (false){
+                  localStorage.setItem("contacts", JSON.stringify({}));
+                  }
+                  var html = _.reduce(this.allContacts(), function(memo, contact){
+                                      return memo + Mustache.to_html(App.contactTemplate, contact);
+                                      }, "");
+                  $("#contact-list").html(html).listview("refresh");
+                  }
+                  };
+                  $("#new-contact-form").live("submit", function(e){
+                                              App.addContact($("#name").val(), $("#number").val());
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              return false;
+                                              });
+                  App.render();
+                  });
+                </script>
+		</div>
 	</body>
 </html>
