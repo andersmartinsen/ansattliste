@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'ansattliste' target in the 'ansattliste' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
