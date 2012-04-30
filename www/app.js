@@ -101,6 +101,17 @@ $(function(){
 			newPage.appendTo($.mobile.pageContainer);
 			$.mobile.changePage(newPage);
 		},
+  function openInWebView(url)
+  {
+  var anchor = document.createElement('a');
+  anchor.setAttribute('href', url);
+  //anchor.setAttribute('target', '_self');
+  
+  var dispatch = document.createEvent('HTMLEvents')
+  dispatch.initEvent('click', true, true);
+  
+  anchor.dispatchEvent(dispatch);
+  },
 		render: function(data){
 			var template = 	'<li><a href="" onClick="App.showEmployee({{Id}}); return false;">' +
             '<img src="{{ImageUrl}}"/>' +
